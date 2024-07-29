@@ -7,9 +7,9 @@
 package wire
 
 import (
-	"gin-init/internal/server"
-	"gin-init/pkg/app"
-	"gin-init/pkg/log"
+	"es_backend/internal/server"
+	"es_backend/pkg/app"
+	"es_backend/pkg/log"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )

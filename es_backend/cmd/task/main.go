@@ -3,9 +3,9 @@ package main
 import (
     "context"
     "flag"
-    "gin-init/cmd/task/wire"
-    "gin-init/pkg/config"
-    "gin-init/pkg/log"
+    "es_backend/cmd/task/wire"
+    "es_backend/pkg/config"
+    "es_backend/pkg/log"
 )
 
 func main() {

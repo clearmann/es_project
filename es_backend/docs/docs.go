@@ -44,7 +44,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.LoginRequest"
+                            "$ref": "#/definitions/es_backend_api_v1.LoginRequest"
                         }
                     }
                 ],
@@ -52,7 +52,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.LoginResponse"
+                            "$ref": "#/definitions/es_backend_api_v1.LoginResponse"
                         }
                     }
                 }
@@ -78,7 +78,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.RegisterRequest"
+                            "$ref": "#/definitions/es_backend_api_v1.RegisterRequest"
                         }
                     }
                 ],
@@ -86,7 +86,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.Response"
+                            "$ref": "#/definitions/es_backend_api_v1.Response"
                         }
                     }
                 }
@@ -113,7 +113,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.GetProfileResponse"
+                            "$ref": "#/definitions/es_backend_api_v1.GetProfileResponse"
                         }
                     }
                 }
@@ -141,7 +141,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.UpdateProfileRequest"
+                            "$ref": "#/definitions/es_backend_api_v1.UpdateProfileRequest"
                         }
                     }
                 ],
@@ -149,7 +149,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/gin-init_api_v1.Response"
+                            "$ref": "#/definitions/es_backend_api_v1.Response"
                         }
                     }
                 }
@@ -157,21 +157,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "gin-init_api_v1.GetProfileResponse": {
+        "es_backend_api_v1.GetProfileResponse": {
             "type": "object",
             "properties": {
                 "code": {
                     "type": "integer"
                 },
                 "data": {
-                    "$ref": "#/definitions/gin-init_api_v1.GetProfileResponseData"
+                    "$ref": "#/definitions/es_backend_api_v1.GetProfileResponseData"
                 },
                 "message": {
                     "type": "string"
                 }
             }
         },
-        "gin-init_api_v1.GetProfileResponseData": {
+        "es_backend_api_v1.GetProfileResponseData": {
             "type": "object",
             "properties": {
                 "nickname": {
@@ -183,7 +183,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gin-init_api_v1.LoginRequest": {
+        "es_backend_api_v1.LoginRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -200,21 +200,21 @@ const docTemplate = `{
                 }
             }
         },
-        "gin-init_api_v1.LoginResponse": {
+        "es_backend_api_v1.LoginResponse": {
             "type": "object",
             "properties": {
                 "code": {
                     "type": "integer"
                 },
                 "data": {
-                    "$ref": "#/definitions/gin-init_api_v1.LoginResponseData"
+                    "$ref": "#/definitions/es_backend_api_v1.LoginResponseData"
                 },
                 "message": {
                     "type": "string"
                 }
             }
         },
-        "gin-init_api_v1.LoginResponseData": {
+        "es_backend_api_v1.LoginResponseData": {
             "type": "object",
             "properties": {
                 "access_token": {
@@ -222,7 +222,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gin-init_api_v1.RegisterRequest": {
+        "es_backend_api_v1.RegisterRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -239,7 +239,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gin-init_api_v1.Response": {
+        "es_backend_api_v1.Response": {
             "type": "object",
             "properties": {
                 "code": {
@@ -251,7 +251,7 @@ const docTemplate = `{
                 }
             }
         },
-        "gin-init_api_v1.UpdateProfileRequest": {
+        "es_backend_api_v1.UpdateProfileRequest": {
             "type": "object",
             "required": [
                 "email"
@@ -283,7 +283,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8000",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "gin-init Example API",
+	Title:            "es_backend Example API",
 	Description:      "This is a sample server celler server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

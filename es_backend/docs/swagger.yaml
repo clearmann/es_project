@@ -1,14 +1,14 @@
 definitions:
-  gin-init_api_v1.GetProfileResponse:
+  es_backend_api_v1.GetProfileResponse:
     properties:
       code:
         type: integer
       data:
-        $ref: '#/definitions/gin-init_api_v1.GetProfileResponseData'
+        $ref: '#/definitions/es_backend_api_v1.GetProfileResponseData'
       message:
         type: string
     type: object
-  gin-init_api_v1.GetProfileResponseData:
+  es_backend_api_v1.GetProfileResponseData:
     properties:
       nickname:
         example: alan
@@ -16,7 +16,7 @@ definitions:
       uuid:
         type: integer
     type: object
-  gin-init_api_v1.LoginRequest:
+  es_backend_api_v1.LoginRequest:
     properties:
       email:
         example: 1234@gmail.com
@@ -28,21 +28,21 @@ definitions:
     - email
     - password
     type: object
-  gin-init_api_v1.LoginResponse:
+  es_backend_api_v1.LoginResponse:
     properties:
       code:
         type: integer
       data:
-        $ref: '#/definitions/gin-init_api_v1.LoginResponseData'
+        $ref: '#/definitions/es_backend_api_v1.LoginResponseData'
       message:
         type: string
     type: object
-  gin-init_api_v1.LoginResponseData:
+  es_backend_api_v1.LoginResponseData:
     properties:
       access_token:
         type: string
     type: object
-  gin-init_api_v1.RegisterRequest:
+  es_backend_api_v1.RegisterRequest:
     properties:
       email:
         example: 1234@gmail.com
@@ -54,7 +54,7 @@ definitions:
     - email
     - password
     type: object
-  gin-init_api_v1.Response:
+  es_backend_api_v1.Response:
     properties:
       code:
         type: integer
@@ -62,7 +62,7 @@ definitions:
       message:
         type: string
     type: object
-  gin-init_api_v1.UpdateProfileRequest:
+  es_backend_api_v1.UpdateProfileRequest:
     properties:
       email:
         example: 1234@gmail.com
@@ -84,7 +84,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: gin-init Example API
+  title: es_backend Example API
   version: 1.0.0
 paths:
   /login:
@@ -97,14 +97,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/gin-init_api_v1.LoginRequest'
+          $ref: '#/definitions/es_backend_api_v1.LoginRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gin-init_api_v1.LoginResponse'
+            $ref: '#/definitions/es_backend_api_v1.LoginResponse'
       summary: 账号登录
       tags:
       - 用户模块
@@ -119,14 +119,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/gin-init_api_v1.RegisterRequest'
+          $ref: '#/definitions/es_backend_api_v1.RegisterRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gin-init_api_v1.Response'
+            $ref: '#/definitions/es_backend_api_v1.Response'
       summary: 用户注册
       tags:
       - 用户模块
@@ -140,7 +140,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gin-init_api_v1.GetProfileResponse'
+            $ref: '#/definitions/es_backend_api_v1.GetProfileResponse'
       security:
       - Bearer: []
       summary: 获取用户信息
@@ -155,14 +155,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/gin-init_api_v1.UpdateProfileRequest'
+          $ref: '#/definitions/es_backend_api_v1.UpdateProfileRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/gin-init_api_v1.Response'
+            $ref: '#/definitions/es_backend_api_v1.Response'
       security:
       - Bearer: []
       summary: 修改用户信息

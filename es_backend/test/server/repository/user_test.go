@@ -2,12 +2,12 @@ package repository
 
 import (
     "context"
-    "gin-init/pkg/log"
+    "es_backend/pkg/log"
     "testing"
     "time"
 
-    "gin-init/internal/model"
-    "gin-init/internal/repository"
+    "es_backend/internal/model"
+    "es_backend/internal/repository"
 
     "github.com/DATA-DOG/go-sqlmock"
     "github.com/stretchr/testify/assert"

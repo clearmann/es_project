@@ -3,7 +3,7 @@ package server
 import (
     "context"
     "github.com/go-co-op/gocron"
-    "gin-init/pkg/log"
+    "es_backend/pkg/log"
     "go.uber.org/zap"
     "time"
 )

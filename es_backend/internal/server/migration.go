@@ -2,8 +2,8 @@ package server
 
 import (
     "context"
-    "gin-init/internal/model"
-    "gin-init/pkg/log"
+    "es_backend/internal/model"
+    "es_backend/pkg/log"
     "go.uber.org/zap"
     "gorm.io/gorm"
     "os"

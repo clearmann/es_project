@@ -3,8 +3,8 @@ package repository
 import (
     "context"
     "errors"
-    v1 "gin-init/api/v1"
-    "gin-init/internal/model"
+    v1 "es_backend/api/v1"
+    "es_backend/internal/model"
 
     "gorm.io/gorm"
 )

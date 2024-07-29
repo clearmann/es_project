@@ -1,10 +1,10 @@
 package service
 
 import (
-    "gin-init/internal/repository"
-    "gin-init/pkg/jwt"
-    "gin-init/pkg/log"
-    "gin-init/pkg/sid"
+    "es_backend/internal/repository"
+    "es_backend/pkg/jwt"
+    "es_backend/pkg/log"
+    "es_backend/pkg/sid"
 )
 
 type Service struct {

@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	model "gin-init/internal/model"
+	model "es_backend/internal/model"
 	gomock "github.com/golang/mock/gomock"
 )
 

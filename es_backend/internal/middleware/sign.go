@@ -3,8 +3,8 @@ package middleware
 import (
     "github.com/duke-git/lancet/v2/cryptor"
     "github.com/gin-gonic/gin"
-    v1 "gin-init/api/v1"
-    "gin-init/pkg/log"
+    v1 "es_backend/api/v1"
+    "es_backend/pkg/log"
     "github.com/spf13/viper"
     "net/http"
     "sort"

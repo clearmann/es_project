@@ -12,7 +12,7 @@ data:
   db:
 #    user:
 #      driver: sqlite
-#      dsn: storage/gin-init-test.db?_busy_timeout=5000
+#      dsn: storage/es_backend-test.db?_busy_timeout=5000
       user:
         driver: mysql
         dsn: root:123456@tcp(127.0.0.1:3306)/user?charset=utf8mb4&parseTime=True&loc=Local

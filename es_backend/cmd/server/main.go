@@ -5,14 +5,14 @@ import (
     "flag"
     "fmt"
 
-    "gin-init/cmd/server/wire"
-    "gin-init/pkg/config"
-    "gin-init/pkg/log"
+    "es_backend/cmd/server/wire"
+    "es_backend/pkg/config"
+    "es_backend/pkg/log"
 
     "go.uber.org/zap"
 )
 
-// @title           gin-init Example API
+// @title           es_backend Example API
 // @version         1.0.0
 // @description     This is a sample server celler server.
 // @termsOfService  http://swagger.io/terms/

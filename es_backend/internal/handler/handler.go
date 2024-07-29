@@ -1,8 +1,8 @@
 package handler
 
 import (
-    "gin-init/pkg/jwt"
-    "gin-init/pkg/log"
+    "es_backend/pkg/jwt"
+    "es_backend/pkg/log"
 
     "github.com/gin-gonic/gin"
 )

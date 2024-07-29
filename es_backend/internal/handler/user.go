@@ -1,8 +1,8 @@
 package handler
 
 import (
-    "gin-init/api/v1"
-    "gin-init/internal/service"
+    "es_backend/api/v1"
+    "es_backend/internal/service"
     "net/http"
 
     "github.com/gin-gonic/gin"

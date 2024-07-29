@@ -7,15 +7,15 @@
 package wire
 
 import (
-	"gin-init/internal/handler"
-	"gin-init/internal/repository"
-	"gin-init/internal/server"
-	"gin-init/internal/service"
-	"gin-init/pkg/app"
-	"gin-init/pkg/jwt"
-	"gin-init/pkg/log"
-	"gin-init/pkg/server/http"
-	"gin-init/pkg/sid"
+	"es_backend/internal/handler"
+	"es_backend/internal/repository"
+	"es_backend/internal/server"
+	"es_backend/internal/service"
+	"es_backend/pkg/app"
+	"es_backend/pkg/jwt"
+	"es_backend/pkg/log"
+	"es_backend/pkg/server/http"
+	"es_backend/pkg/sid"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )

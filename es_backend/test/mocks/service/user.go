@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	v1 "gin-init/api/v1"
+	v1 "es_backend/api/v1"
 	gomock "github.com/golang/mock/gomock"
 )
 

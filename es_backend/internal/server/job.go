@@ -2,7 +2,7 @@ package server
 
 import (
     "context"
-    "gin-init/pkg/log"
+    "es_backend/pkg/log"
 )
 
 type Job struct {

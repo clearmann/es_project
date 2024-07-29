@@ -3,7 +3,7 @@ package grpc
 import (
     "context"
     "fmt"
-    "gin-init/pkg/log"
+    "es_backend/pkg/log"
     "google.golang.org/grpc"
     "net"
     "time"

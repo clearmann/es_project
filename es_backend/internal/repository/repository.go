@@ -3,9 +3,9 @@ package repository
 import (
     "context"
     "fmt"
-    "gin-init/internal/model"
-    "gin-init/pkg/log"
-    "gin-init/pkg/zapgorm2"
+    "es_backend/internal/model"
+    "es_backend/pkg/log"
+    "es_backend/pkg/zapgorm2"
     "time"
 
     "github.com/glebarez/sqlite"

@@ -1,13 +1,13 @@
 package server
 
 import (
-    apiV1 "gin-init/api/v1"
-    "gin-init/docs"
-    "gin-init/internal/handler"
-    "gin-init/internal/middleware"
-    "gin-init/pkg/jwt"
-    "gin-init/pkg/log"
-    "gin-init/pkg/server/http"
+    apiV1 "es_backend/api/v1"
+    "es_backend/docs"
+    "es_backend/internal/handler"
+    "es_backend/internal/middleware"
+    "es_backend/pkg/jwt"
+    "es_backend/pkg/log"
+    "es_backend/pkg/server/http"
 
     "github.com/gin-gonic/gin"
     "github.com/spf13/viper"
@@ -47,7 +47,7 @@ func NewHTTPServer(
     s.GET("/", func(ctx *gin.Context) {
         logger.WithContext(ctx).Info("hello")
         apiV1.HandleSuccess(ctx, map[string]interface{}{
-            ":)": "Thank you for using gin-init!",
+            ":)": "Thank you for using es_backend!",
         })
     })
 

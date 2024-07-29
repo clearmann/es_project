@@ -1,5 +1,5 @@
 ## 项目模板介绍
-gin-init 是一个基于 Gin 框架的项目初始化模板，它是由Golang生态中 **最新** + **最火** 技术整合而成的，它们的组合可以帮助你快速构建一个高效、可靠的应用程序。该脚手架包括配置管理、日志记录、中间件、依赖注入、数据库集成和测试等常见功能，来帮助开发者更快速地启动项目。  
+es_backend 是一个基于 Gin 框架的项目初始化模板，它是由Golang生态中 **最新** + **最火** 技术整合而成的，它们的组合可以帮助你快速构建一个高效、可靠的应用程序。该脚手架包括配置管理、日志记录、中间件、依赖注入、数据库集成和测试等常见功能，来帮助开发者更快速地启动项目。  
 
 ## 模板特点：
 - - -
@@ -94,7 +94,7 @@ cd cmd/server && wire
 此命令会自动寻找项目中的wire.go文件，并快速编译生成所需的依赖项。
 ### 配置文件
 #### 指定配置文件来启动
-gin-init 使用 Viper 库来管理配置文件。
+es_backend 使用 Viper 库来管理配置文件。
 默认会加载```config/local.yml```，你可以使用环境变量或参数来指定配置文件路径
 ```
 set APP_CONF=config\prod.yml && go run ./cmd/server
@@ -173,10 +173,10 @@ type UserRepository struct {
 
 您可以使用以下命令运行测试：
 ```
-go test -coverpkg=./internal/handler,./internal/service,./internal/repository -coverprofile=./.gin-init/coverage.out ./test/server/...
-go tool cover -html=./.gin-init/coverage.out -o coverage.html
+go test -coverpkg=./internal/handler,./internal/service,./internal/repository -coverprofile=./.es_backend/coverage.out ./test/server/...
+go tool cover -html=./.es_backend/coverage.out -o coverage.html
 ```
 上面的命令将会生成一个html文件coverage.html，我们可以直接使用浏览器打开它，然后我们就会看到详细的单元测试覆盖率。
 
 ## 结论
-gin-init 是一个非常实用的 Golang 应用脚手架，它可以帮助您快速构建高效、可靠的应用程序。希望本指南能够帮助您有所学习，并且您可以根据自己的需求进行扩展和定制，请不要忘记给本项目一个star。
+es_backend 是一个非常实用的 Golang 应用脚手架，它可以帮助您快速构建高效、可靠的应用程序。希望本指南能够帮助您有所学习，并且您可以根据自己的需求进行扩展和定制，请不要忘记给本项目一个star。

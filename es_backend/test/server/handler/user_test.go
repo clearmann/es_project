@@ -5,11 +5,11 @@ import (
     "encoding/json"
     "flag"
     "fmt"
-    v1 "gin-init/api/v1"
-    "gin-init/internal/handler"
-    "gin-init/internal/middleware"
-    jwt2 "gin-init/pkg/jwt"
-    "gin-init/test/mocks/service"
+    v1 "es_backend/api/v1"
+    "es_backend/internal/handler"
+    "es_backend/internal/middleware"
+    jwt2 "es_backend/pkg/jwt"
+    "es_backend/test/mocks/service"
     "time"
 
     "net/http"
@@ -17,8 +17,8 @@ import (
     "os"
     "testing"
 
-    "gin-init/pkg/config"
-    "gin-init/pkg/log"
+    "es_backend/pkg/config"
+    "es_backend/pkg/log"
 
     "github.com/gin-gonic/gin"
     "github.com/golang/mock/gomock"

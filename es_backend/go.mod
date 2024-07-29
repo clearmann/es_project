@@ -1,4 +1,4 @@
-module gin-init
+module es_backend
 
 go 1.20
 

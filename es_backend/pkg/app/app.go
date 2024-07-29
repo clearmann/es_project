@@ -2,7 +2,7 @@ package app
 
 import (
     "context"
-    "gin-init/pkg/server"
+    "es_backend/pkg/server"
     "log"
     "os"
     "os/signal"

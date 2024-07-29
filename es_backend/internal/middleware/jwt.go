@@ -1,9 +1,9 @@
 package middleware
 
 import (
-    "gin-init/api/v1"
-    "gin-init/pkg/jwt"
-    "gin-init/pkg/log"
+    "es_backend/api/v1"
+    "es_backend/pkg/jwt"
+    "es_backend/pkg/log"
     "net/http"
     "strconv"
 

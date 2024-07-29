@@ -5,7 +5,7 @@ import (
     "errors"
     "fmt"
     "github.com/gin-gonic/gin"
-    "gin-init/pkg/log"
+    "es_backend/pkg/log"
     "net/http"
     "time"
 )

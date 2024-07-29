@@ -2,9 +2,9 @@ package service
 
 import (
     "context"
-    v1 "gin-init/api/v1"
-    "gin-init/internal/model"
-    "gin-init/internal/repository"
+    v1 "es_backend/api/v1"
+    "es_backend/internal/model"
+    "es_backend/internal/repository"
     "time"
 
     "golang.org/x/crypto/bcrypt"
