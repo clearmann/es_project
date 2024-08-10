@@ -6,16 +6,17 @@ import (
     "flag"
     "fmt"
     v1 "es_backend/api/v1"
+    "es_backend/internal/model/model_type"
     "es_backend/pkg/jwt"
     "es_backend/test/mocks/repository"
     "os"
     "testing"
 
-    "es_backend/internal/model"
     "es_backend/internal/service"
     "es_backend/pkg/config"
     "es_backend/pkg/log"
     "es_backend/pkg/sid"
+
     "github.com/golang/mock/gomock"
     "github.com/stretchr/testify/assert"
     "golang.org/x/crypto/bcrypt"
@@ -88,7 +89,7 @@ func TestUserService_Register_UsernameExists(t *testing.T) {
         Email:    "test@example.com",
     }
 
-    mockUserRepo.EXPECT().GetByEmail(ctx, req.Email).Return(&model.User{}, nil)
+    mockUserRepo.EXPECT().GetByEmail(ctx, req.Email).Return(&model_type.User{}, nil)
 
     err := userService.Register(ctx, req)
 
@@ -114,7 +115,7 @@ func TestUserService_Login(t *testing.T) {
         t.Error("failed to hash password")
     }
 
-    mockUserRepo.EXPECT().GetByEmail(ctx, req.Email).Return(&model.User{
+    mockUserRepo.EXPECT().GetByEmail(ctx, req.Email).Return(&model_type.User{
         Password: string(hashedPassword),
     }, nil)
 
@@ -158,7 +159,7 @@ func TestUserService_GetProfile(t *testing.T) {
     ctx := context.Background()
     userId := "123"
 
-    mockUserRepo.EXPECT().GetByID(ctx, userId).Return(&model.User{
+    mockUserRepo.EXPECT().GetByID(ctx, userId).Return(&model_type.User{
         UserId: userId,
         Email:  "test@example.com",
     }, nil)
@@ -185,7 +186,7 @@ func TestUserService_UpdateProfile(t *testing.T) {
         Email:    "test@example.com",
     }
 
-    mockUserRepo.EXPECT().GetByID(ctx, userId).Return(&model.User{
+    mockUserRepo.EXPECT().GetByID(ctx, userId).Return(&model_type.User{
         UserId: userId,
         Email:  "old@example.com",
     }, nil)

@@ -1,31 +1,32 @@
 package v1
 
 type RegisterRequest struct {
-    Email    string `json:"email" binding:"required,email" example:"1234@gmail.com"`
-    Password string `json:"password" binding:"required" example:"123456"`
+    Username string `json:"username" binding:"required"`
+    Email    string `json:"email" binding:"required,email"`
+    Password string `json:"password" binding:"required"`
 }
 
 type LoginRequest struct {
-    Email    string `json:"email" binding:"required,email" example:"1234@gmail.com"`
-    Password string `json:"password" binding:"required" example:"123456"`
-}
-type LoginResponseData struct {
-    AccessToken string `json:"access_token"`
+    Name     string `json:"name" binding:"required"`
+    Password string `json:"password" binding:"required"`
 }
 type LoginResponse struct {
-    Response
-    Data LoginResponseData
+    AccessToken string `json:"access_token"`
 }
 
 type UpdateProfileRequest struct {
-    Nickname string `json:"nickname" example:"alan"`
-    Email    string `json:"email" binding:"required,email" example:"1234@gmail.com"`
+    Username string `json:"username,omitempty"`
+    Profile  string `json:"profile,omitempty"`
+    Email    string `json:"email,omitempty"`
+    UUID     uint64 `json:"uuid,omitempty"`
 }
-type GetProfileResponseData struct {
-    UUID     uint64 `json:"uuid"`
-    Nickname string `json:"nickname" example:"alan"`
+type GetProfileRequest struct {
+    UUID uint64 `json:"uuid"`
 }
 type GetProfileResponse struct {
-    Response
-    Data GetProfileResponseData
+    Username string `json:"username,omitempty"`
+    Profile  string `json:"profile,omitempty"`
+    Email    string `json:"email,omitempty"`
+    UUID     uint64 `json:"uuid,omitempty"`
+    Avatar   string `json:"avatar,omitempty"`
 }

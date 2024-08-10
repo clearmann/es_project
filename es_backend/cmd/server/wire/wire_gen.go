@@ -26,14 +26,19 @@ func NewWire(viperViper *viper.Viper, logger *log.Logger) (*app.App, func(), err
 	jwtJWT := jwt.NewJwt(viperViper)
 	handlerHandler := handler.NewHandler(logger)
 	db := repository.NewDB(viperViper, logger)
-	repositoryRepository := repository.NewRepository(logger, db)
+	client := repository.NewRedis(viperViper)
+	elasticsearchClient := repository.NewElasticSearch(viperViper)
+	repositoryRepository := repository.NewRepository(logger, db, client, elasticsearchClient)
 	transaction := repository.NewTransaction(repositoryRepository)
 	sidSid := sid.NewSid()
 	serviceService := service.NewService(transaction, logger, sidSid, jwtJWT)
 	userRepository := repository.NewUserRepository(repositoryRepository)
 	userService := service.NewUserService(serviceService, userRepository)
 	userHandler := handler.NewUserHandler(handlerHandler, userService)
-	httpServer := server.NewHTTPServer(logger, viperViper, jwtJWT, userHandler)
+	postRepository := repository.NewPostRepository(repositoryRepository)
+	postService := service.NewPostService(serviceService, postRepository)
+	postHandler := handler.NewPostHandler(handlerHandler, postService)
+	httpServer := server.NewHTTPServer(logger, viperViper, jwtJWT, userHandler, postHandler)
 	job := server.NewJob(logger)
 	appApp := newApp(httpServer, job)
 	return appApp, func() {
@@ -42,19 +47,15 @@ func NewWire(viperViper *viper.Viper, logger *log.Logger) (*app.App, func(), err
 
 // wire.go:
 
-var repositorySet = wire.NewSet(repository.NewDB, repository.NewRepository, repository.NewTransaction, repository.NewUserRepository)
+var repositorySet = wire.NewSet(repository.NewDB, repository.NewRedis, repository.NewElasticSearch, repository.NewRepository, repository.NewTransaction, repository.NewUserRepository, repository.NewPostRepository)
 
-var serviceSet = wire.NewSet(service.NewService, service.NewUserService)
+var serviceSet = wire.NewSet(service.NewService, service.NewUserService, service.NewPostService)
 
-var handlerSet = wire.NewSet(handler.NewHandler, handler.NewUserHandler)
+var handlerSet = wire.NewSet(handler.NewHandler, handler.NewUserHandler, handler.NewPostHandler)
 
 var serverSet = wire.NewSet(server.NewHTTPServer, server.NewJob)
 
 // build App
-func newApp(
-	httpServer *http.Server,
-	job *server.Job,
-
-) *app.App {
+func newApp(httpServer *http.Server, job *server.Job) *app.App {
 	return app.NewApp(app.WithServer(httpServer, job), app.WithName("demo-server"))
 }

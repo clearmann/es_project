@@ -2,11 +2,12 @@ package server
 
 import (
     "context"
-    "es_backend/internal/model"
+    "es_backend/internal/model/model_type"
     "es_backend/pkg/log"
+    "os"
+
     "go.uber.org/zap"
     "gorm.io/gorm"
-    "os"
 )
 
 type Migrate struct {
@@ -21,7 +22,13 @@ func NewMigrate(db *gorm.DB, log *log.Logger) *Migrate {
     }
 }
 func (m *Migrate) Start(ctx context.Context) error {
-    if err := m.db.AutoMigrate(&model.User{}); err != nil {
+    err := m.db.AutoMigrate(
+        &model_type.User{},
+        &model_type.Post{},
+        &model_type.PostFavour{},
+        &model_type.PostThumb{},
+    )
+    if err != nil {
         m.log.Error("user migrate error", zap.Error(err))
         return err
     }

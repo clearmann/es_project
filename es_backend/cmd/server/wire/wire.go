@@ -13,26 +13,31 @@ import (
     "es_backend/pkg/log"
     "es_backend/pkg/server/http"
     "es_backend/pkg/sid"
+
     "github.com/google/wire"
     "github.com/spf13/viper"
 )
 
 var repositorySet = wire.NewSet(
     repository.NewDB,
-    // repository.NewRedis,
+    repository.NewRedis,
+    repository.NewElasticSearch,
     repository.NewRepository,
     repository.NewTransaction,
     repository.NewUserRepository,
+    repository.NewPostRepository,
 )
 
 var serviceSet = wire.NewSet(
     service.NewService,
     service.NewUserService,
+    service.NewPostService,
 )
 
 var handlerSet = wire.NewSet(
     handler.NewHandler,
     handler.NewUserHandler,
+    handler.NewPostHandler,
 )
 
 var serverSet = wire.NewSet(
@@ -41,11 +46,7 @@ var serverSet = wire.NewSet(
 )
 
 // build App
-func newApp(
-    httpServer *http.Server,
-    job *server.Job,
-// task *server.Task,
-) *app.App {
+func newApp(httpServer *http.Server, job *server.Job) *app.App {
     return app.NewApp(
         app.WithServer(httpServer, job),
         app.WithName("demo-server"),

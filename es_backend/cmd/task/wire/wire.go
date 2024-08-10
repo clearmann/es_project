@@ -7,6 +7,7 @@ import (
     "es_backend/internal/server"
     "es_backend/pkg/app"
     "es_backend/pkg/log"
+
     "github.com/google/wire"
     "github.com/spf13/viper"
 )
@@ -16,9 +17,7 @@ var serverSet = wire.NewSet(
 )
 
 // build App
-func newApp(
-    task *server.Task,
-) *app.App {
+func newApp(task *server.Task) *app.App {
     return app.NewApp(
         app.WithServer(task),
         app.WithName("demo-task"),

@@ -3,8 +3,9 @@ package service
 import (
     "context"
     v1 "es_backend/api/v1"
-    "es_backend/internal/model"
+    "es_backend/internal/model/model_type"
     "es_backend/internal/repository"
+    "log"
     "time"
 
     "golang.org/x/crypto/bcrypt"
@@ -12,9 +13,9 @@ import (
 
 type UserService interface {
     Register(ctx context.Context, req *v1.RegisterRequest) error
-    Login(ctx context.Context, req *v1.LoginRequest) (string, error)
-    GetProfile(ctx context.Context, uuid uint64) (*v1.GetProfileResponseData, error)
-    UpdateProfile(ctx context.Context, uuid uint64, req *v1.UpdateProfileRequest) error
+    Login(ctx context.Context, req *v1.LoginRequest, resp *v1.LoginResponse) error
+    GetProfile(ctx context.Context, req *v1.GetProfileRequest, resp *v1.GetProfileResponse) error
+    UpdateProfile(ctx context.Context, req *v1.UpdateProfileRequest) error
 }
 
 func NewUserService(
@@ -34,80 +35,92 @@ type userService struct {
 
 func (s *userService) Register(ctx context.Context, req *v1.RegisterRequest) error {
     // check username
-    user, err := s.userRepo.GetByEmail(ctx, req.Email)
+    isExist, err := s.userRepo.ExistUserByEmail(ctx, req.Email)
     if err != nil {
         return v1.ErrInternalServerError
     }
-    if err == nil && user != nil {
+    if !isExist {
         return v1.ErrEmailAlreadyUse
+    }
+
+    isExist, err = s.userRepo.ExistUserByUsername(ctx, req.Email)
+    if err != nil {
+        return v1.ErrInternalServerError
+    }
+    if !isExist {
+        return v1.ErrUsernameAlreadyUse
     }
 
     hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
     if err != nil {
+        log.Println("Generate password error:", err)
         return err
     }
-    // Generate user ID
+    // Generate uuid
     uuid, err := s.sid.GenUint64()
     if err != nil {
+        log.Println("Generate uuid error:", err)
         return err
     }
-    user = &model.User{
+    var user = &model_type.User{
         UUID:     uuid,
         Email:    req.Email,
         Password: string(hashedPassword),
+        Username: req.Username,
     }
     // Transaction demo
     err = s.tm.Transaction(ctx, func(ctx context.Context) error {
         // Create a user
         if err = s.userRepo.Create(ctx, user); err != nil {
+            log.Println("Create user error:", err)
             return err
         }
-        // TODO: other repo
         return nil
     })
     return err
 }
 
-func (s *userService) Login(ctx context.Context, req *v1.LoginRequest) (string, error) {
-    user, err := s.userRepo.GetByEmail(ctx, req.Email)
+func (s *userService) Login(ctx context.Context, req *v1.LoginRequest, resp *v1.LoginResponse) error {
+    user, err := s.userRepo.GetByEmailORUsername(ctx, req.Name)
     if err != nil || user == nil {
-        return "", v1.ErrUnauthorized
+        return v1.ErrUnauthorized
     }
 
     err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
     if err != nil {
-        return "", err
+        s.logger.Info("")
+        return err
     }
     token, err := s.jwt.GenToken(user.UUID, time.Now().Add(time.Hour*24*90))
     if err != nil {
-        return "", err
+        return err
     }
-
-    return token, nil
+    resp.AccessToken = token
+    return nil
 }
 
-func (s *userService) GetProfile(ctx context.Context, uuid uint64) (*v1.GetProfileResponseData, error) {
-    user, err := s.userRepo.GetByID(ctx, uuid)
-    if err != nil {
-        return nil, err
-    }
-
-    return &v1.GetProfileResponseData{
-        UUID:     user.UUID,
-        Nickname: user.Nickname,
-    }, nil
-}
-
-func (s *userService) UpdateProfile(ctx context.Context, uuid uint64, req *v1.UpdateProfileRequest) error {
-    user, err := s.userRepo.GetByID(ctx, uuid)
+func (s *userService) GetProfile(ctx context.Context, req *v1.GetProfileRequest, resp *v1.GetProfileResponse) error {
+    user, err := s.userRepo.GetByID(ctx, req.UUID)
     if err != nil {
         return err
     }
+    resp.Avatar = user.Avatar
+    resp.Email = user.Email
+    resp.Profile = user.Profile
+    resp.UUID = user.UUID
+    resp.Username = user.Username
+    return nil
+}
 
-    user.Email = req.Email
-    user.Nickname = req.Nickname
-
-    if err = s.userRepo.Update(ctx, user); err != nil {
+func (s *userService) UpdateProfile(ctx context.Context, req *v1.UpdateProfileRequest) error {
+    isExist, err := s.userRepo.ExistUserByUUID(ctx, req.UUID)
+    if err != nil {
+        return err
+    }
+    if !isExist {
+        return v1.ErrNotFound
+    }
+    if err = s.userRepo.Update(ctx, req); err != nil {
         return err
     }
 

@@ -31,6 +31,9 @@ import UserList from "@/components/UserList.vue";
 import PictureList from "@/components/PictureList.vue";
 import MyDivider from "@/components/MyDivider.vue";
 import { useRoute, useRouter } from "vue-router";
+import myAxios from "@/plugins/myAxios";
+
+myAxios.post("");
 
 const router = useRouter();
 const route = useRoute();

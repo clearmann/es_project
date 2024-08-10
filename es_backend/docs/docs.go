@@ -86,7 +86,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/es_backend_api_v1.Response"
+                            "$ref": "#/definitions/es_backend_api_v1.BaseResponse"
                         }
                     }
                 }
@@ -149,7 +149,85 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/es_backend_api_v1.Response"
+                            "$ref": "#/definitions/es_backend_api_v1.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/post/create": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "创建帖子信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "帖子模块"
+                ],
+                "summary": "创建帖子信息",
+                "parameters": [
+                    {
+                        "description": "params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/es_backend_api_v1.CreatePostRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/es_backend_api_v1.BaseResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/post/list": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "列出帖子信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "帖子模块"
+                ],
+                "summary": "列出帖子信息",
+                "parameters": [
+                    {
+                        "description": "params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/es_backend_api_v1.ListPostRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/es_backend_api_v1.ListPostResponse"
                         }
                     }
                 }
@@ -157,89 +235,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "es_backend_api_v1.GetProfileResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "data": {
-                    "$ref": "#/definitions/es_backend_api_v1.GetProfileResponseData"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "es_backend_api_v1.GetProfileResponseData": {
-            "type": "object",
-            "properties": {
-                "nickname": {
-                    "type": "string",
-                    "example": "alan"
-                },
-                "uuid": {
-                    "type": "integer"
-                }
-            }
-        },
-        "es_backend_api_v1.LoginRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "1234@gmail.com"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "123456"
-                }
-            }
-        },
-        "es_backend_api_v1.LoginResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "data": {
-                    "$ref": "#/definitions/es_backend_api_v1.LoginResponseData"
-                },
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "es_backend_api_v1.LoginResponseData": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                }
-            }
-        },
-        "es_backend_api_v1.RegisterRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "password"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string",
-                    "example": "1234@gmail.com"
-                },
-                "password": {
-                    "type": "string",
-                    "example": "123456"
-                }
-            }
-        },
-        "es_backend_api_v1.Response": {
+        "es_backend_api_v1.BaseResponse": {
             "type": "object",
             "properties": {
                 "code": {
@@ -251,19 +247,192 @@ const docTemplate = `{
                 }
             }
         },
-        "es_backend_api_v1.UpdateProfileRequest": {
+        "es_backend_api_v1.CreatePostRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "favour_num": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "thumb_num": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "es_backend_api_v1.GetProfileResponse": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "es_backend_api_v1.ListPostRequest": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "list_all": {
+                    "type": "boolean"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "order_by": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "es_backend_api_v1.ListPostResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/es_backend_internal_model_model_type.Post"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "es_backend_api_v1.LoginRequest": {
             "type": "object",
             "required": [
-                "email"
+                "name",
+                "password"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "es_backend_api_v1.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "es_backend_api_v1.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
             ],
             "properties": {
                 "email": {
-                    "type": "string",
-                    "example": "1234@gmail.com"
+                    "type": "string"
                 },
-                "nickname": {
-                    "type": "string",
-                    "example": "alan"
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "es_backend_api_v1.UpdateProfileRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "es_backend_internal_model_model_type.Post": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "favourNum": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "string"
+                },
+                "thumbNum": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gorm.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
                 }
             }
         }

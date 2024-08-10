@@ -7,7 +7,13 @@ import (
     "github.com/gin-gonic/gin"
 )
 
-type Response struct {
+type QueryRequest struct {
+    Offset  int      `json:"offset,omitempty"`
+    Limit   int      `json:"limit,omitempty"`
+    ListAll bool     `json:"list_all,omitempty"`
+    OrderBy []string `json:"order_by,omitempty"`
+}
+type BaseResponse struct {
     Code    int    `json:"code"`
     Message string `json:"message"`
     Data    any    `json:"data"`
@@ -17,9 +23,9 @@ func HandleSuccess(ctx *gin.Context, data any) {
     if data == nil {
         data = map[string]any{}
     }
-    resp := Response{Code: errorCodeMap[ErrSuccess], Message: ErrSuccess.Error(), Data: data}
+    resp := BaseResponse{Code: errorCodeMap[ErrSuccess], Message: ErrSuccess.Error(), Data: data}
     if _, ok := errorCodeMap[ErrSuccess]; !ok {
-        resp = Response{Code: 0, Message: "", Data: data}
+        resp = BaseResponse{Code: 0, Message: "", Data: data}
     }
     ctx.JSON(http.StatusOK, resp)
 }
@@ -28,9 +34,9 @@ func HandleError(ctx *gin.Context, httpCode int, err error, data interface{}) {
     if data == nil {
         data = map[string]string{}
     }
-    resp := Response{Code: errorCodeMap[err], Message: err.Error(), Data: data}
+    resp := BaseResponse{Code: errorCodeMap[err], Message: err.Error(), Data: data}
     if _, ok := errorCodeMap[err]; !ok {
-        resp = Response{Code: 500, Message: "unknown error", Data: data}
+        resp = BaseResponse{Code: 500, Message: "unknown error", Data: data}
     }
     ctx.JSON(httpCode, resp)
 }

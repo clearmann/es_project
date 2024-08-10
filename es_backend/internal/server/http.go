@@ -20,6 +20,7 @@ func NewHTTPServer(
     conf *viper.Viper,
     jwt *jwt.JWT,
     userHandler *handler.UserHandler,
+    postHandler *handler.PostHandler,
 ) *http.Server {
     gin.SetMode(gin.DebugMode)
     s := http.NewServer(
@@ -58,11 +59,13 @@ func NewHTTPServer(
         {
             noAuthRouter.POST("/register", userHandler.Register)
             noAuthRouter.POST("/login", userHandler.Login)
+            noAuthRouter.POST("/post/list", postHandler.List)
         }
         // Non-strict permission routing group
         noStrictAuthRouter := v1.Group("/").Use(middleware.NoStrictAuth(jwt, logger))
         {
             noStrictAuthRouter.GET("/user", userHandler.GetProfile)
+            noAuthRouter.POST("/post/create", postHandler.Create)
         }
 
         // Strict permission routing group
