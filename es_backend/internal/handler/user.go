@@ -4,6 +4,7 @@ import (
     "es_backend/api/v1"
     "es_backend/internal/service"
     "es_backend/pkg/helper"
+    "log"
     "net/http"
 
     "github.com/gin-gonic/gin"
@@ -38,14 +39,17 @@ func (h *UserHandler) Register(ctx *gin.Context) {
         v1.HandleError(ctx, http.StatusBadRequest, v1.ErrBadRequest, nil)
         return
     }
+    log.Println(req)
     if !helper.VerifyEmail(req.Email) {
         v1.HandleError(ctx, http.StatusBadRequest, v1.ErrEmailFormat, nil)
     }
+    log.Println("---------------------")
     if err := h.userService.Register(ctx, req); err != nil {
         h.logger.WithContext(ctx).Error("userService.Register error", zap.Error(err))
         v1.HandleError(ctx, http.StatusInternalServerError, err, nil)
         return
     }
+    log.Println("+++++++++++++++++++")
     v1.HandleSuccess(ctx, nil)
 }
 
@@ -133,4 +137,31 @@ func (h *UserHandler) UpdateProfile(ctx *gin.Context) {
     }
 
     v1.HandleSuccess(ctx, nil)
+}
+
+// List godoc
+// @Summary 列出用户信息
+// @Schemes
+// @Description 列出用户信息
+// @Tags 用户模块
+// @Accept json
+// @Produce json
+// @Security Bearer
+// @Param request body v1.ListUserRequest true "params"
+// @Success 200 {object} v1.ListUserResponse
+// @Router /v1/user/list [post]
+func (h *UserHandler) List(ctx *gin.Context) {
+    req := new(v1.ListUserRequest)
+    resp := new(v1.ListUserResponse)
+    if err := ctx.ShouldBindJSON(&req); err != nil {
+        v1.HandleError(ctx, http.StatusBadRequest, v1.ErrBadRequest, nil)
+        return
+    }
+
+    err := h.userService.List(ctx, req, resp)
+    if err != nil {
+        v1.HandleError(ctx, http.StatusOK, err, nil)
+        return
+    }
+    ctx.JSON(http.StatusOK, resp)
 }

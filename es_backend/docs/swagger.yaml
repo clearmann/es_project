@@ -11,12 +11,8 @@ definitions:
     properties:
       content:
         type: string
-      favour_num:
-        type: integer
       tags:
         type: string
-      thumb_num:
-        type: integer
       title:
         type: string
       uuid:
@@ -53,6 +49,32 @@ definitions:
       data:
         items:
           $ref: '#/definitions/es_backend_internal_model_model_type.Post'
+        type: array
+      limit:
+        type: integer
+      offset:
+        type: integer
+      total:
+        type: integer
+    type: object
+  es_backend_api_v1.ListUserRequest:
+    properties:
+      limit:
+        type: integer
+      list_all:
+        type: boolean
+      offset:
+        type: integer
+      order_by:
+        items:
+          type: string
+        type: array
+    type: object
+  es_backend_api_v1.ListUserResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/es_backend_api_v1.UserInfo'
         type: array
       limit:
         type: integer
@@ -100,6 +122,19 @@ definitions:
       uuid:
         type: integer
     type: object
+  es_backend_api_v1.UserInfo:
+    properties:
+      avatar:
+        type: string
+      email:
+        type: string
+      profile:
+        type: string
+      username:
+        type: string
+      uuid:
+        type: integer
+    type: object
   es_backend_internal_model_model_type.Post:
     properties:
       content:
@@ -108,13 +143,13 @@ definitions:
         type: string
       deletedAt:
         $ref: '#/definitions/gorm.DeletedAt'
-      favourNum:
+      favour_num:
         type: integer
       id:
         type: integer
       tags:
         type: string
-      thumbNum:
+      thumb_num:
         type: integer
       title:
         type: string
@@ -274,6 +309,30 @@ paths:
       summary: 列出帖子信息
       tags:
       - 帖子模块
+  /v1/user/list:
+    post:
+      consumes:
+      - application/json
+      description: 列出用户信息
+      parameters:
+      - description: params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/es_backend_api_v1.ListUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/es_backend_api_v1.ListUserResponse'
+      security:
+      - Bearer: []
+      summary: 列出用户信息
+      tags:
+      - 用户模块
 securityDefinitions:
   Bearer:
     in: header

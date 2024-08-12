@@ -7,11 +7,10 @@
       size="large"
       @search="onSearch"
     />
-    {{ JSON.stringify(searchParams) }}
     <MyDivider />
     <a-tabs v-model:activeKey="activeKey" @change="onTabChange">
       <a-tab-pane key="post" tab="文章">
-        <PostList />
+        <PostList :postList="postList" />
       </a-tab-pane>
       <a-tab-pane key="user" tab="用户">
         <UserList />
@@ -33,8 +32,24 @@ import MyDivider from "@/components/MyDivider.vue";
 import { useRoute, useRouter } from "vue-router";
 import myAxios from "@/plugins/myAxios";
 
-myAxios.post("");
-
+const postList = ref([]);
+myAxios
+  .post("/post/list", { limit: 0, offset: 0, list_all: true })
+  .then((res: any) => {
+    postList.value = res.data;
+  });
+const userList = ref([]);
+myAxios
+  .post("/user/list", { limit: 0, offset: 0, list_all: true })
+  .then((res: any) => {
+    userList.value = res.data;
+  });
+const pictureList = ref([]);
+myAxios
+  .post("/picture/list", { limit: 0, offset: 0, list_all: true })
+  .then((res: any) => {
+    pictureList.value = res.data;
+  });
 const router = useRouter();
 const route = useRoute();
 const initSearchParams = ref({

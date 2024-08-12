@@ -16,6 +16,7 @@ type UserService interface {
     Login(ctx context.Context, req *v1.LoginRequest, resp *v1.LoginResponse) error
     GetProfile(ctx context.Context, req *v1.GetProfileRequest, resp *v1.GetProfileResponse) error
     UpdateProfile(ctx context.Context, req *v1.UpdateProfileRequest) error
+    List(ctx context.Context, req *v1.ListUserRequest, resp *v1.ListUserResponse) error
 }
 
 func NewUserService(
@@ -34,29 +35,29 @@ type userService struct {
 }
 
 func (s *userService) Register(ctx context.Context, req *v1.RegisterRequest) error {
-    // check username
     isExist, err := s.userRepo.ExistUserByEmail(ctx, req.Email)
     if err != nil {
         return v1.ErrInternalServerError
     }
-    if !isExist {
+    if isExist {
         return v1.ErrEmailAlreadyUse
     }
 
-    isExist, err = s.userRepo.ExistUserByUsername(ctx, req.Email)
+    isExist, err = s.userRepo.ExistUserByUsername(ctx, req.Username)
     if err != nil {
         return v1.ErrInternalServerError
     }
-    if !isExist {
+    if isExist {
         return v1.ErrUsernameAlreadyUse
     }
+    log.Println("req.Email:", req.Email)
 
     hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
     if err != nil {
         log.Println("Generate password error:", err)
         return err
     }
-    // Generate uuid
+    log.Println("hashedPassword:", string(hashedPassword))
     uuid, err := s.sid.GenUint64()
     if err != nil {
         log.Println("Generate uuid error:", err)
@@ -69,6 +70,7 @@ func (s *userService) Register(ctx context.Context, req *v1.RegisterRequest) err
         Username: req.Username,
     }
     // Transaction demo
+    log.Println("----------------------")
     err = s.tm.Transaction(ctx, func(ctx context.Context) error {
         // Create a user
         if err = s.userRepo.Create(ctx, user); err != nil {
@@ -124,5 +126,20 @@ func (s *userService) UpdateProfile(ctx context.Context, req *v1.UpdateProfileRe
         return err
     }
 
+    return nil
+}
+func (s *userService) List(ctx context.Context, req *v1.ListUserRequest, resp *v1.ListUserResponse) error {
+    var err error
+    if req.ListAll {
+        err = s.userRepo.ListALL(ctx, &resp.Data)
+    } else {
+        err = s.userRepo.List(ctx, req, &resp.Data)
+    }
+    if err != nil {
+        return v1.ErrInternalServerError
+    }
+    resp.Total = int64(len(resp.Data))
+    resp.Offset = req.Offset
+    resp.Limit = req.Limit
     return nil
 }

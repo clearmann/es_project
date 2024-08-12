@@ -24,6 +24,18 @@ type GetProfileRequest struct {
     UUID uint64 `json:"uuid"`
 }
 type GetProfileResponse struct {
+    UserInfo
+}
+type ListUserRequest struct {
+    QueryRequest
+}
+type ListUserResponse struct {
+    Total  int64       `json:"total"`
+    Offset int         `json:"offset"`
+    Limit  int         `json:"limit"`
+    Data   []*UserInfo `json:"data"`
+}
+type UserInfo struct {
     Username string `json:"username,omitempty"`
     Profile  string `json:"profile,omitempty"`
     Email    string `json:"email,omitempty"`

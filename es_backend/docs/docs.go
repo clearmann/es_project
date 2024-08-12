@@ -232,6 +232,45 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/user/list": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "列出用户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户模块"
+                ],
+                "summary": "列出用户信息",
+                "parameters": [
+                    {
+                        "description": "params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/es_backend_api_v1.ListUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/es_backend_api_v1.ListUserResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -253,14 +292,8 @@ const docTemplate = `{
                 "content": {
                     "type": "string"
                 },
-                "favour_num": {
-                    "type": "integer"
-                },
                 "tags": {
                     "type": "string"
-                },
-                "thumb_num": {
-                    "type": "integer"
                 },
                 "title": {
                     "type": "string"
@@ -317,6 +350,46 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/es_backend_internal_model_model_type.Post"
+                    }
+                },
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "es_backend_api_v1.ListUserRequest": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "list_all": {
+                    "type": "boolean"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "order_by": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "es_backend_api_v1.ListUserResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/es_backend_api_v1.UserInfo"
                     }
                 },
                 "limit": {
@@ -389,6 +462,26 @@ const docTemplate = `{
                 }
             }
         },
+        "es_backend_api_v1.UserInfo": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "profile": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "integer"
+                }
+            }
+        },
         "es_backend_internal_model_model_type.Post": {
             "type": "object",
             "properties": {
@@ -401,7 +494,7 @@ const docTemplate = `{
                 "deletedAt": {
                     "$ref": "#/definitions/gorm.DeletedAt"
                 },
-                "favourNum": {
+                "favour_num": {
                     "type": "integer"
                 },
                 "id": {
@@ -410,7 +503,7 @@ const docTemplate = `{
                 "tags": {
                     "type": "string"
                 },
-                "thumbNum": {
+                "thumb_num": {
                     "type": "integer"
                 },
                 "title": {

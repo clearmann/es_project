@@ -1,7 +1,6 @@
 package server
 
 import (
-    apiV1 "es_backend/api/v1"
     "es_backend/docs"
     "es_backend/internal/handler"
     "es_backend/internal/middleware"
@@ -45,12 +44,6 @@ func NewHTTPServer(
         middleware.RequestLogMiddleware(logger),
         // middleware.SignMiddleware(log),
     )
-    s.GET("/", func(ctx *gin.Context) {
-        logger.WithContext(ctx).Info("hello")
-        apiV1.HandleSuccess(ctx, map[string]interface{}{
-            ":)": "Thank you for using es_backend!",
-        })
-    })
 
     v1 := s.Group("/v1")
     {
@@ -60,6 +53,7 @@ func NewHTTPServer(
             noAuthRouter.POST("/register", userHandler.Register)
             noAuthRouter.POST("/login", userHandler.Login)
             noAuthRouter.POST("/post/list", postHandler.List)
+            noAuthRouter.POST("/user/list", userHandler.List)
         }
         // Non-strict permission routing group
         noStrictAuthRouter := v1.Group("/").Use(middleware.NoStrictAuth(jwt, logger))
